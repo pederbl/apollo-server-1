@@ -36,11 +36,11 @@ type AccountCreateMutationResponse {
   code: String!
   success: Boolean!
   message: String!
-  account: Account
+  records: [Account]
 }
 
 type Mutation {
-  accountsCreate(account: AccountCreateInput!): AccountCreateMutationResponse
+  accountsCreate(records: [AccountCreateInput]!): AccountCreateMutationResponse
 }
 
 type Query {

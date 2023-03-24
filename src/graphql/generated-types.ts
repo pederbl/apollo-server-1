@@ -43,9 +43,9 @@ export type AccountCreateInput = {
 
 export type AccountCreateMutationResponse = {
   __typename?: 'AccountCreateMutationResponse';
-  account?: Maybe<Account>;
   code: Scalars['String'];
   message: Scalars['String'];
+  records?: Maybe<Array<Maybe<Account>>>;
   success: Scalars['Boolean'];
 };
 
@@ -66,7 +66,7 @@ export type Mutation = {
 
 
 export type MutationAccountsCreateArgs = {
-  account: AccountCreateInput;
+  records: Array<InputMaybe<AccountCreateInput>>;
 };
 
 export type Query = {
@@ -190,15 +190,15 @@ export type AccountContentResolvers<ContextType = MyContext, ParentType extends 
 }>;
 
 export type AccountCreateMutationResponseResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['AccountCreateMutationResponse'] = ResolversParentTypes['AccountCreateMutationResponse']> = ResolversObject<{
-  account?: Resolver<Maybe<ResolversTypes['Account']>, ParentType, ContextType>;
   code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  records?: Resolver<Maybe<Array<Maybe<ResolversTypes['Account']>>>, ParentType, ContextType>;
   success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  accountsCreate?: Resolver<Maybe<ResolversTypes['AccountCreateMutationResponse']>, ParentType, ContextType, RequireFields<MutationAccountsCreateArgs, 'account'>>;
+  accountsCreate?: Resolver<Maybe<ResolversTypes['AccountCreateMutationResponse']>, ParentType, ContextType, RequireFields<MutationAccountsCreateArgs, 'records'>>;
 }>;
 
 export type QueryResolvers<ContextType = MyContext, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
