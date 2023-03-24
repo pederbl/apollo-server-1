@@ -32,7 +32,7 @@ input AccountPatchInput {
   content: AccountContentPatchInput!
 }
 
-type AccountCreateMutationResponse {
+type AccountMutationResponse {
   code: String!
   success: Boolean!
   message: String!
@@ -40,7 +40,9 @@ type AccountCreateMutationResponse {
 }
 
 type Mutation {
-  accountsCreate(records: [AccountCreateInput]!): AccountCreateMutationResponse
+  accountsCreate(records: [AccountCreateInput]!): AccountMutationResponse
+  accountsReplace(records: [AccountReplaceInput]!): AccountMutationResponse
+
 }
 
 type Query {
