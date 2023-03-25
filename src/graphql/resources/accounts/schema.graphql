@@ -32,17 +32,22 @@ input AccountPatchInput {
   content: AccountContentPatchInput!
 }
 
-type AccountMutationResponse {
+input RecordDeleteInput {
+  id: ID!
+}
+
+type RecordMutationResponse {
+  id: ID
   code: String!
   success: Boolean!
   message: String!
-  records: [Account]
 }
 
 type Mutation {
-  accountsCreate(records: [AccountCreateInput]!): AccountMutationResponse
-  accountsReplace(records: [AccountReplaceInput]!): AccountMutationResponse
-
+  accountsCreate(records: [AccountCreateInput]!): [RecordMutationResponse]
+  accountsReplace(records: [AccountReplaceInput]!): [RecordMutationResponse]
+  accountsPatch(records: [AccountReplaceInput]!): [RecordMutationResponse]
+  accountsDelete(records: [RecordDeleteInput]!): [RecordMutationResponse]
 }
 
 type Query {
