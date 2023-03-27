@@ -1,31 +1,17 @@
-import { getCouchbaseClient } from "../../../../data/couchbase/client";
-import { RecordDeleteInput } from "../../../generated-types";
-import handleCouchbaseError from "../../../lib/handle-couchbase-mutation-errors";
+import { mutateRecord, mutateRecords, MutationOperation, RecordMutationResult } from "src/graphql/lib/recordMutation";
+import { AccountDeleteInput, RecordsMutationResponse } from "../../../generated-types";
 
-async function deleteAccount(account: RecordDeleteInput) {
-    const id = account.id;
+const COLLECTION = "accounts";
+const MUTATION_OPERATION: MutationOperation = "delete"; 
 
-    const { accountsCollection } = await getCouchbaseClient();
+type RecordMutationInput = AccountDeleteInput; 
 
-    try {
-        await accountsCollection.remove(id);
-        return {
-            code: '200',
-            success: true,
-            message: `Record deleted!`,
-            id
-        };
-    } catch (error) {
-        if (error instanceof Error) {
-            return handleCouchbaseError(error, id);
-        } else {
-            throw new Error(String(error));
-        }
-    }
+async function recordMutator(record: RecordMutationInput): 
+Promise<RecordMutationResult> {
+  return mutateRecord(record, COLLECTION, MUTATION_OPERATION);
 }
 
-export default async function deleteAccounts(_: any, { records }: { records: RecordDeleteInput[] }) {
-    const deleteResults = await Promise.allSettled(records.map(deleteAccount));
-    const results = deleteResults.map(result => (result.status === 'fulfilled' ? result.value : result.reason));
-    return results;
+export default async function handler(_: any, { records }: { records: RecordMutationInput[] }): 
+Promise<RecordsMutationResponse> {
+  return mutateRecords<RecordMutationInput>(records, recordMutator);
 }

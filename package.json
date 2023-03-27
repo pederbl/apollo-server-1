@@ -7,8 +7,8 @@
     "dev": "nodemon -r dotenv/config src/index.ts",
     "compile": "tsc",
     "start": "npm run compile && node ./dist/index.js",
-    "codegen": "npm run schemagen && graphql-codegen --config codegen.ts",
-    "schemagen": "ts-node src/graphql/generate-schema.ts"
+    "generate-graphql-types": "graphql-codegen --config codegen.ts",
+    "generate-resource": "ts-node apollo-couch/generateResource/index.ts"
   },
   "dependencies": {
     "@apollo/server": "^4.5.0",

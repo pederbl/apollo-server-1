@@ -1,39 +1,20 @@
-import crypto from "crypto"; 
-import handleCouchbaseError from "../../../lib/handle-couchbase-mutation-errors";
-import { getCouchbaseClient } from "../../../../data/couchbase/client";
-import { AccountCreateInput, RecordMutationResponse } from "../../../generated-types";
+import { generateId, mutateRecord, mutateRecords, MutationOperation, RecordMutationResult } from "src/graphql/lib/recordMutation";
+import { AccountCreateInput, RecordsMutationResponse } from "../../../generated-types";
 
-async function createAccount(account: AccountCreateInput) {
-  const content = account.content;
-  const id = "acc:" + crypto.randomUUID();
+const COLLECTION = "accounts";
+const MUTATION_OPERATION: MutationOperation = "insert"; 
+const COLLECTION_ID_PREFIX = "acc"
 
-  const { accountsCollection } = await getCouchbaseClient();
+type RecordMutationInput = AccountCreateInput; 
 
-  try {
-    await accountsCollection.insert(id, content);
-    return {
-      code: '200',
-      success: true,
-      message: `Account ${id} created!`,
-      id,
-      content,
-    };
-  } catch (error) {
-    if (error instanceof Error) {
-      return handleCouchbaseError(error, id);
-    } else {
-      throw new Error(String(error));
-    }
-  }
+async function recordMutator(record: RecordMutationInput): 
+Promise<RecordMutationResult> {
+  const id = generateId(COLLECTION_ID_PREFIX);
+  const recordWithId = { ...record, id }
+  return mutateRecord(recordWithId, COLLECTION, MUTATION_OPERATION);
 }
 
-export default async function create(_: any, { records }: { records: AccountCreateInput[] }): Promise<RecordMutationResponse[]> {
-  const createdRecords = [];
-
-  for (const account of records) {
-    const response = await createAccount(account);
-    createdRecords.push(response);
-  }
-
-  return createdRecords;
+export default async function handler(_: any, { records }: { records: RecordMutationInput[] }): 
+Promise<RecordsMutationResponse> {
+  return mutateRecords<RecordMutationInput>(records, recordMutator);
 }

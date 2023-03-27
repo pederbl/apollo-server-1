@@ -20,7 +20,7 @@
       "esm": true,
       "experimentalSpecifierResolution": "node"
     },
-    "include": ["src/**/*"],
+    "include": ["src/**/*", "scripts/generate-schema.ts", "apollo-couch/data"],
     "exclude": ["node_modules"]
   }
   

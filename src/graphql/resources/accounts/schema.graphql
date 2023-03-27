@@ -1,3 +1,7 @@
+#import RecordsMutationResponse from '../../lib/schema.graphql'
+#import ErrorResponse from '../../lib/schema.graphql'
+
+
 type AccountContent {
   name: String!
   phone: String
@@ -32,24 +36,33 @@ input AccountPatchInput {
   content: AccountContentPatchInput!
 }
 
-input RecordDeleteInput {
+input AccountDeleteInput {
   id: ID!
 }
 
-type RecordMutationResponse {
-  id: ID
+type AccountsListResponse {
   code: String!
-  success: Boolean!
   message: String!
+  records: [Account]
+}
+
+input AccountsListInput {
+  name: String
+}
+
+type AccountsGetByIdResponse {
+  success: [Account]
+  error: [ErrorResponse]
 }
 
 type Mutation {
-  accountsCreate(records: [AccountCreateInput]!): [RecordMutationResponse]
-  accountsReplace(records: [AccountReplaceInput]!): [RecordMutationResponse]
-  accountsPatch(records: [AccountReplaceInput]!): [RecordMutationResponse]
-  accountsDelete(records: [RecordDeleteInput]!): [RecordMutationResponse]
+  accountsCreate(records: [AccountCreateInput]!): RecordsMutationResponse
+  accountsPatch(records: [AccountPatchInput]!): RecordsMutationResponse
+  accountsReplace(records: [AccountReplaceInput]!): RecordsMutationResponse
+  accountsDelete(records: [AccountDeleteInput]!): RecordsMutationResponse
 }
 
 type Query {
-  accountsGet: [Account]
+  accountsList(query: AccountsListInput): AccountsListResponse
+  accountsGetById(ids: [ID!]!): AccountsGetByIdResponse
 }
