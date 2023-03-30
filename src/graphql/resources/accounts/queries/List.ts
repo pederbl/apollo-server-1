@@ -6,7 +6,10 @@ export default async function resolver(_: any, __: any) : Promise<AccountsListRe
     const query = "SELECT META().id, * FROM main.play.accounts";
     const response = await cluster.query(query);
     const outputRecords = response.rows.map((row: any) => { return { id: row.id, content: row.accounts } });
-    console.log(outputRecords); 
+
+    
+    
+
     return {
         code: 200,
         message: "Success", 

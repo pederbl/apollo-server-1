@@ -10,18 +10,16 @@ const COLLECTION = "${pluralLowerCase}";
 const MUTATION_OPERATION: MutationOperation = "insert";
 const COLLECTION_ID_PREFIX = "${singularLowerCase.slice(0, 3)}"
 
-type RecordMutationInput = ${singularCapitalized}CreateInput;
-
-async function recordMutator(record: RecordMutationInput): 
+async function recordMutator(record: ${singularCapitalized}CreateInput): 
 Promise<RecordMutationResult> {
   const id = generateId(COLLECTION_ID_PREFIX);
   const recordWithId = { ...record, id }
   return mutateRecord(recordWithId, COLLECTION, MUTATION_OPERATION);
 }
 
-export default async function resolver(_: any, { records }: { records: RecordMutationInput[] }): 
+export default async function resolver(_: any, { records }: { records: ${singularCapitalized}CreateInput[] }): 
 Promise<RecordsMutationResponse> {
-  return mutateRecords<RecordMutationInput>(records, recordMutator);
+  return mutateRecords<${singularCapitalized}CreateInput>(records, recordMutator);
 }
 `;
 }

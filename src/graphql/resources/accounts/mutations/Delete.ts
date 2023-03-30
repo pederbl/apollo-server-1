@@ -4,14 +4,12 @@ import { AccountDeleteInput, RecordsMutationResponse } from "../../../generated-
 const COLLECTION = "accounts";
 const MUTATION_OPERATION: MutationOperation = "delete"; 
 
-type RecordMutationInput = AccountDeleteInput; 
-
-async function recordMutator(record: RecordMutationInput): 
+async function recordMutator(record: AccountDeleteInput): 
 Promise<RecordMutationResult> {
   return mutateRecord(record, COLLECTION, MUTATION_OPERATION);
 }
 
-export default async function handler(_: any, { records }: { records: RecordMutationInput[] }): 
+export default async function resolver(_: any, { records }: { records: AccountDeleteInput[] }): 
 Promise<RecordsMutationResponse> {
-  return mutateRecords<RecordMutationInput>(records, recordMutator);
+  return mutateRecords<AccountDeleteInput>(records, recordMutator);
 }

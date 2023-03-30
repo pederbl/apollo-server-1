@@ -9,16 +9,14 @@ import { ${singularCapitalized}ReplaceInput, RecordsMutationResponse } from "../
 const COLLECTION = "${pluralLowerCase}";
 const MUTATION_OPERATION: MutationOperation = "replace";
 
-type RecordMutationInput = ${singularCapitalized}ReplaceInput;
-
-async function recordMutator(record: RecordMutationInput):
+async function recordMutator(record: ${singularCapitalized}UpdateInput):
 Promise<RecordMutationResult> {
 return mutateRecord(record, COLLECTION, MUTATION_OPERATION);
 }
 
-export default async function resolver(_: any, { records }: { records: RecordMutationInput[] }):
+export default async function resolver(_: any, { records }: { records: ${singularCapitalized}UpdateInput[] }):
 Promise<RecordsMutationResponse> {
-return mutateRecords<RecordMutationInput>(records, recordMutator);
+return mutateRecords<${singularCapitalized}UpdateInput>(records, recordMutator);
 }
 `;
 }

@@ -4,14 +4,12 @@ import { AccountReplaceInput, RecordsMutationResponse } from "../../../generated
 const COLLECTION = "accounts";
 const MUTATION_OPERATION: MutationOperation = "replace"; 
 
-type RecordMutationInput = AccountReplaceInput; 
-
-async function recordMutator(record: RecordMutationInput): 
+async function recordMutator(record: AccountReplaceInput): 
 Promise<RecordMutationResult> {
   return mutateRecord(record, COLLECTION, MUTATION_OPERATION);
 }
 
-export default async function handler(_: any, { records }: { records: RecordMutationInput[] }): 
+export default async function resolver(_: any, { records }: { records: AccountReplaceInput[] }): 
 Promise<RecordsMutationResponse> {
-  return mutateRecords<RecordMutationInput>(records, recordMutator);
+  return mutateRecords<AccountReplaceInput>(records, recordMutator);
 }
