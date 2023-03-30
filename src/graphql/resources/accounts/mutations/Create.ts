@@ -1,4 +1,4 @@
-import { generateId, mutateRecord, mutateRecords, MutationOperation, RecordMutationResult } from "src/graphql/lib/recordMutation";
+import { generateId, mutateRecord, mutateRecords, MutationOperation, RecordMutationResult } from "../../../../../apollo-couch/src/graphql/lib/recordMutation";
 import { AccountCreateInput, RecordsMutationResponse } from "../../../generated-types";
 
 const COLLECTION = "accounts";

@@ -2,13 +2,12 @@ import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: "src/graphql/**/*.graphql",
+  schema: ["src/graphql/**/*.graphql", "apollo-couch/src/graphql/**/*.graphql"],
   generates: {
     "src/graphql/generated-types.ts": {
       plugins: ["typescript", "typescript-resolvers"],
       config: {
-        useIndexSignature: true,
-        contextType: "../pages/api/graphql#MyContext"
+        useIndexSignature: true
       },
     }, 
   }

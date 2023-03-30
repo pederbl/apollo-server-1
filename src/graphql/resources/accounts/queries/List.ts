@@ -1,7 +1,7 @@
 import { Account } from "src/graphql/generated-types";
-import { getCouchbaseClient } from "../../../../../apollo-couch/data/couchbase/client";
+import { getCouchbaseClient } from "../../../../../apollo-couch/src/couchbase/client";
 
-export default async function get(_: any, __: any) : Promise<Account[]> {
+export default async function resolver(_: any, __: any) : Promise<Account[]> {
     const { cluster } = await getCouchbaseClient();
     const query = "SELECT META().id, * FROM main.play.accounts";
     const response = await cluster.query(query);

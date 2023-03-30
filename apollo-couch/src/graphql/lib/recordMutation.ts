@@ -1,7 +1,7 @@
 import crypto from "crypto";
 import { CouchbaseError } from "couchbase";
-import { ErrorResponse, RecordsMutationResponse } from "../generated-types";
-import { getCouchbaseClient } from "../../../apollo-couch/data/couchbase/client";
+import { ErrorResponse, RecordsMutationResponse } from "src/graphql/generated-types";
+import { getCouchbaseClient } from "../../couchbase/client";
 import { handleMutationError } from "./handleMutationErrors";
 
 export function generateId(prefix: string) {

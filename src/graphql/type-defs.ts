@@ -1,9 +1,9 @@
 import { readFileSync, readdirSync } from "fs";
-import path from "path";
 
-const filenames = readdirSync('src/graphql/resources');
+const resourceNames = readdirSync('src/graphql/resources');
+const resourceTypeDefs = resourceNames.map(resourceName => readFileSync('./src/graphql/resources/' + resourceName + "/schema.graphql", { encoding: 'utf-8' })).join("\n");
 
-const models = filenames.map(filename => readFileSync('./src/graphql/resources/' + filename + "/schema.graphql"), { encoding: 'utf-8' });
-const typeDefs = models.join("\n");
+const apolloCouchTypeDefs = readFileSync('./apollo-couch/src/graphql/schema.graphql', { encoding: 'utf-8' });
+const typeDefs = resourceTypeDefs + "\n" + apolloCouchTypeDefs; 
 
 export default typeDefs;
