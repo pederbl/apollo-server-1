@@ -66,14 +66,14 @@ export type AccountsListInput = {
 
 export type AccountsListResponse = {
   __typename?: 'AccountsListResponse';
-  code: Scalars['String'];
+  code?: Maybe<Scalars['Int']>;
   message: Scalars['String'];
   records?: Maybe<Array<Maybe<Account>>>;
 };
 
 export type ErrorResponse = {
   __typename?: 'ErrorResponse';
-  code: Scalars['String'];
+  code: Scalars['Int'];
   id: Scalars['ID'];
   message: Scalars['String'];
 };
@@ -213,6 +213,7 @@ export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   ErrorResponse: ResolverTypeWrapper<ErrorResponse>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
   RecordsMutationResponse: ResolverTypeWrapper<RecordsMutationResponse>;
@@ -235,6 +236,7 @@ export type ResolversParentTypes = ResolversObject<{
   Boolean: Scalars['Boolean'];
   ErrorResponse: ErrorResponse;
   ID: Scalars['ID'];
+  Int: Scalars['Int'];
   Mutation: {};
   Query: {};
   RecordsMutationResponse: RecordsMutationResponse;
@@ -260,14 +262,14 @@ export type AccountsGetByIdResponseResolvers<ContextType = any, ParentType exten
 }>;
 
 export type AccountsListResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['AccountsListResponse'] = ResolversParentTypes['AccountsListResponse']> = ResolversObject<{
-  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  code?: Resolver<Maybe<ResolversTypes['Int']>, ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   records?: Resolver<Maybe<Array<Maybe<ResolversTypes['Account']>>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type ErrorResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['ErrorResponse'] = ResolversParentTypes['ErrorResponse']> = ResolversObject<{
-  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

@@ -11,7 +11,7 @@ export function generateId(prefix: string) {
 export type RecordMutationResult = {
   success: boolean;
   id: string;
-  code: string;
+  code: number;
   message: string;
 };
 
@@ -49,8 +49,8 @@ export async function mutateRecord(
     return {
       success: true,
       id: record.id,
-      code: "200",
-      message: `Record ${record.id} ${operation}d successfully!`,
+      code: 200,
+      message: `Success`,
     };
   } catch (error) {
     if (error instanceof CouchbaseError) {
@@ -83,7 +83,7 @@ export async function mutateRecords<T>(
     } else if (response.status === "rejected") {
       result.error.push({
         id: 'UNKNOWN',
-        code: '500',
+        code: 500,
         message: `Unexpected error: ${response.reason}`
       });
     } else {

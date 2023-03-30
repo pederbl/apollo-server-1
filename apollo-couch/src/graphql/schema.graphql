@@ -1,6 +1,6 @@
 type ErrorResponse {
   id: ID!
-  code: String!
+  code: Int!
   message: String!
 }
 

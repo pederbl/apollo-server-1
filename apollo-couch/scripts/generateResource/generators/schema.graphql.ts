@@ -45,7 +45,7 @@ input ${singularCapitalized}DeleteInput {
 }
 
 type ${pluralCapitalized}ListResponse {
-  code: String!
+  code: Int!
   message: String!
   records: [${singularCapitalized}]
 }
