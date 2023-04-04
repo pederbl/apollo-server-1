@@ -19,10 +19,6 @@ input AccountContentPatchInput {
   phone: String
 }
 
-input AccountCreateInput {
-  content: AccountContentInput!
-}
-
 input AccountReplaceInput {
   id: ID!
   content: AccountContentInput!
@@ -33,8 +29,14 @@ input AccountPatchInput {
   content: AccountContentPatchInput!
 }
 
-input AccountDeleteInput {
-  id: ID!
+type AccountsResponse {
+  records: [Account]!
+  errors: [ErrorResponse]!
+}
+
+type AccountsDeleteResponse {
+  deletedIds: [ID]!
+  errors: [ErrorResponse]!
 }
 
 type AccountsListResponse {
@@ -43,23 +45,22 @@ type AccountsListResponse {
   records: [Account]
 }
 
-input AccountsListInput {
+input AccountListFiltersInput {
   name: String
 }
 
-type AccountsGetByIdResponse {
-  success: [Account]
-  error: [ErrorResponse]
+input AccountsListInput {
+  filters: AccountListFiltersInput
 }
 
 type Mutation {
-  accountsCreate(records: [AccountCreateInput]!): RecordsMutationResponse
-  accountsPatch(records: [AccountPatchInput]!): RecordsMutationResponse
-  accountsReplace(records: [AccountReplaceInput]!): RecordsMutationResponse
-  accountsDelete(records: [AccountDeleteInput]!): RecordsMutationResponse
+  accountsCreate(contents: [AccountContentInput]!): AccountsResponse
+  accountsPatch(records: [AccountPatchInput]!): AccountsResponse
+  accountsReplace(records: [AccountReplaceInput]!): AccountsResponse
+  accountsDelete(ids: [ID]!): AccountsDeleteResponse
 }
 
 type Query {
+  accountsGetByIds(ids: [ID!]!): AccountsResponse
   accountsList(query: AccountsListInput): AccountsListResponse
-  accountsGetById(ids: [ID!]!): AccountsGetByIdResponse
 }

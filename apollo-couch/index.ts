@@ -1,1 +1,0 @@
-export { handleMutationError } from "./src/graphql/lib/handleMutationErrors"

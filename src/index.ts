@@ -1,22 +1,8 @@
-import * as dotenv from 'dotenv' 
-import { ApolloServer } from '@apollo/server';
-import { startStandaloneServer } from '@apollo/server/standalone';
-import resolvers from './graphql/resolvers';
-import typeDefs from './graphql/type-defs';
+import { startApolloCouchServer } from "apollo-couch";
+// import customTypeDefs from "./graphql/custom-type-defs"; // If you have custom type definitions
+// import customResolvers from "./graphql/custom-resolvers"; // If you have custom resolvers
 
-dotenv.config();
+const port = 4000;
 
-export interface MyContext {};
-  
-const server = new ApolloServer<MyContext>({ typeDefs, resolvers });
-
-const { url } = await startStandaloneServer<MyContext>(server, {
-    listen: { port: 4000 },
-    context: async () => {
-        return {};
-    }
-});
-  
-console.log(`🚀  Server ready at: ${url}`);
-
-export {}
+// You can pass custom type definitions and resolvers if needed, along with the context
+startApolloCouchServer(port); //, customTypeDefs, customResolvers);

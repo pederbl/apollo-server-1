@@ -8,7 +8,7 @@
     "compile": "tsc",
     "start": "npm run compile && node ./dist/index.js",
     "generate-graphql-types": "graphql-codegen --config codegen.ts",
-    "generate-resource": "ts-node apollo-couch/scripts/generateResource/index.ts"
+    "generate-resource": "generate-resource"
   },
   "dependencies": {
     "@apollo/server": "^4.5.0",

@@ -36,12 +36,8 @@ export type AccountContentPatchInput = {
   phone?: InputMaybe<Scalars['String']>;
 };
 
-export type AccountCreateInput = {
-  content: AccountContentInput;
-};
-
-export type AccountDeleteInput = {
-  id: Scalars['ID'];
+export type AccountListFiltersInput = {
+  name?: InputMaybe<Scalars['String']>;
 };
 
 export type AccountPatchInput = {
@@ -54,14 +50,14 @@ export type AccountReplaceInput = {
   id: Scalars['ID'];
 };
 
-export type AccountsGetByIdResponse = {
-  __typename?: 'AccountsGetByIdResponse';
-  error?: Maybe<Array<Maybe<ErrorResponse>>>;
-  success?: Maybe<Array<Maybe<Account>>>;
+export type AccountsDeleteResponse = {
+  __typename?: 'AccountsDeleteResponse';
+  deletedIds: Array<Maybe<Scalars['ID']>>;
+  errors: Array<Maybe<ErrorResponse>>;
 };
 
 export type AccountsListInput = {
-  name?: InputMaybe<Scalars['String']>;
+  filters?: InputMaybe<AccountListFiltersInput>;
 };
 
 export type AccountsListResponse = {
@@ -71,29 +67,35 @@ export type AccountsListResponse = {
   records?: Maybe<Array<Maybe<Account>>>;
 };
 
+export type AccountsResponse = {
+  __typename?: 'AccountsResponse';
+  errors: Array<Maybe<ErrorResponse>>;
+  records: Array<Maybe<Account>>;
+};
+
 export type ErrorResponse = {
   __typename?: 'ErrorResponse';
   code: Scalars['Int'];
-  id: Scalars['ID'];
+  id?: Maybe<Scalars['ID']>;
   message: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
-  accountsCreate?: Maybe<RecordsMutationResponse>;
-  accountsDelete?: Maybe<RecordsMutationResponse>;
-  accountsPatch?: Maybe<RecordsMutationResponse>;
-  accountsReplace?: Maybe<RecordsMutationResponse>;
+  accountsCreate?: Maybe<AccountsResponse>;
+  accountsDelete?: Maybe<AccountsDeleteResponse>;
+  accountsPatch?: Maybe<AccountsResponse>;
+  accountsReplace?: Maybe<AccountsResponse>;
 };
 
 
 export type MutationAccountsCreateArgs = {
-  records: Array<InputMaybe<AccountCreateInput>>;
+  contents: Array<InputMaybe<AccountContentInput>>;
 };
 
 
 export type MutationAccountsDeleteArgs = {
-  records: Array<InputMaybe<AccountDeleteInput>>;
+  ids: Array<InputMaybe<Scalars['ID']>>;
 };
 
 
@@ -108,24 +110,18 @@ export type MutationAccountsReplaceArgs = {
 
 export type Query = {
   __typename?: 'Query';
-  accountsGetById?: Maybe<AccountsGetByIdResponse>;
+  accountsGetByIds?: Maybe<AccountsResponse>;
   accountsList?: Maybe<AccountsListResponse>;
 };
 
 
-export type QueryAccountsGetByIdArgs = {
+export type QueryAccountsGetByIdsArgs = {
   ids: Array<Scalars['ID']>;
 };
 
 
 export type QueryAccountsListArgs = {
   query?: InputMaybe<AccountsListInput>;
-};
-
-export type RecordsMutationResponse = {
-  __typename?: 'RecordsMutationResponse';
-  error: Array<ErrorResponse>;
-  success: Array<Scalars['ID']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -203,20 +199,19 @@ export type ResolversTypes = ResolversObject<{
   AccountContent: ResolverTypeWrapper<AccountContent>;
   AccountContentInput: AccountContentInput;
   AccountContentPatchInput: AccountContentPatchInput;
-  AccountCreateInput: AccountCreateInput;
-  AccountDeleteInput: AccountDeleteInput;
+  AccountListFiltersInput: AccountListFiltersInput;
   AccountPatchInput: AccountPatchInput;
   AccountReplaceInput: AccountReplaceInput;
-  AccountsGetByIdResponse: ResolverTypeWrapper<AccountsGetByIdResponse>;
+  AccountsDeleteResponse: ResolverTypeWrapper<AccountsDeleteResponse>;
   AccountsListInput: AccountsListInput;
   AccountsListResponse: ResolverTypeWrapper<AccountsListResponse>;
+  AccountsResponse: ResolverTypeWrapper<AccountsResponse>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   ErrorResponse: ResolverTypeWrapper<ErrorResponse>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
   Query: ResolverTypeWrapper<{}>;
-  RecordsMutationResponse: ResolverTypeWrapper<RecordsMutationResponse>;
   String: ResolverTypeWrapper<Scalars['String']>;
 }>;
 
@@ -226,20 +221,19 @@ export type ResolversParentTypes = ResolversObject<{
   AccountContent: AccountContent;
   AccountContentInput: AccountContentInput;
   AccountContentPatchInput: AccountContentPatchInput;
-  AccountCreateInput: AccountCreateInput;
-  AccountDeleteInput: AccountDeleteInput;
+  AccountListFiltersInput: AccountListFiltersInput;
   AccountPatchInput: AccountPatchInput;
   AccountReplaceInput: AccountReplaceInput;
-  AccountsGetByIdResponse: AccountsGetByIdResponse;
+  AccountsDeleteResponse: AccountsDeleteResponse;
   AccountsListInput: AccountsListInput;
   AccountsListResponse: AccountsListResponse;
+  AccountsResponse: AccountsResponse;
   Boolean: Scalars['Boolean'];
   ErrorResponse: ErrorResponse;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
   Mutation: {};
   Query: {};
-  RecordsMutationResponse: RecordsMutationResponse;
   String: Scalars['String'];
 }>;
 
@@ -255,9 +249,9 @@ export type AccountContentResolvers<ContextType = any, ParentType extends Resolv
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type AccountsGetByIdResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['AccountsGetByIdResponse'] = ResolversParentTypes['AccountsGetByIdResponse']> = ResolversObject<{
-  error?: Resolver<Maybe<Array<Maybe<ResolversTypes['ErrorResponse']>>>, ParentType, ContextType>;
-  success?: Resolver<Maybe<Array<Maybe<ResolversTypes['Account']>>>, ParentType, ContextType>;
+export type AccountsDeleteResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['AccountsDeleteResponse'] = ResolversParentTypes['AccountsDeleteResponse']> = ResolversObject<{
+  deletedIds?: Resolver<Array<Maybe<ResolversTypes['ID']>>, ParentType, ContextType>;
+  errors?: Resolver<Array<Maybe<ResolversTypes['ErrorResponse']>>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -268,39 +262,39 @@ export type AccountsListResponseResolvers<ContextType = any, ParentType extends 
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
+export type AccountsResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['AccountsResponse'] = ResolversParentTypes['AccountsResponse']> = ResolversObject<{
+  errors?: Resolver<Array<Maybe<ResolversTypes['ErrorResponse']>>, ParentType, ContextType>;
+  records?: Resolver<Array<Maybe<ResolversTypes['Account']>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+}>;
+
 export type ErrorResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['ErrorResponse'] = ResolversParentTypes['ErrorResponse']> = ResolversObject<{
   code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  id?: Resolver<Maybe<ResolversTypes['ID']>, ParentType, ContextType>;
   message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = ResolversObject<{
-  accountsCreate?: Resolver<Maybe<ResolversTypes['RecordsMutationResponse']>, ParentType, ContextType, RequireFields<MutationAccountsCreateArgs, 'records'>>;
-  accountsDelete?: Resolver<Maybe<ResolversTypes['RecordsMutationResponse']>, ParentType, ContextType, RequireFields<MutationAccountsDeleteArgs, 'records'>>;
-  accountsPatch?: Resolver<Maybe<ResolversTypes['RecordsMutationResponse']>, ParentType, ContextType, RequireFields<MutationAccountsPatchArgs, 'records'>>;
-  accountsReplace?: Resolver<Maybe<ResolversTypes['RecordsMutationResponse']>, ParentType, ContextType, RequireFields<MutationAccountsReplaceArgs, 'records'>>;
+  accountsCreate?: Resolver<Maybe<ResolversTypes['AccountsResponse']>, ParentType, ContextType, RequireFields<MutationAccountsCreateArgs, 'contents'>>;
+  accountsDelete?: Resolver<Maybe<ResolversTypes['AccountsDeleteResponse']>, ParentType, ContextType, RequireFields<MutationAccountsDeleteArgs, 'ids'>>;
+  accountsPatch?: Resolver<Maybe<ResolversTypes['AccountsResponse']>, ParentType, ContextType, RequireFields<MutationAccountsPatchArgs, 'records'>>;
+  accountsReplace?: Resolver<Maybe<ResolversTypes['AccountsResponse']>, ParentType, ContextType, RequireFields<MutationAccountsReplaceArgs, 'records'>>;
 }>;
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
-  accountsGetById?: Resolver<Maybe<ResolversTypes['AccountsGetByIdResponse']>, ParentType, ContextType, RequireFields<QueryAccountsGetByIdArgs, 'ids'>>;
+  accountsGetByIds?: Resolver<Maybe<ResolversTypes['AccountsResponse']>, ParentType, ContextType, RequireFields<QueryAccountsGetByIdsArgs, 'ids'>>;
   accountsList?: Resolver<Maybe<ResolversTypes['AccountsListResponse']>, ParentType, ContextType, Partial<QueryAccountsListArgs>>;
-}>;
-
-export type RecordsMutationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['RecordsMutationResponse'] = ResolversParentTypes['RecordsMutationResponse']> = ResolversObject<{
-  error?: Resolver<Array<ResolversTypes['ErrorResponse']>, ParentType, ContextType>;
-  success?: Resolver<Array<ResolversTypes['ID']>, ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
 export type Resolvers<ContextType = any> = ResolversObject<{
   Account?: AccountResolvers<ContextType>;
   AccountContent?: AccountContentResolvers<ContextType>;
-  AccountsGetByIdResponse?: AccountsGetByIdResponseResolvers<ContextType>;
+  AccountsDeleteResponse?: AccountsDeleteResponseResolvers<ContextType>;
   AccountsListResponse?: AccountsListResponseResolvers<ContextType>;
+  AccountsResponse?: AccountsResponseResolvers<ContextType>;
   ErrorResponse?: ErrorResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
-  RecordsMutationResponse?: RecordsMutationResponseResolvers<ContextType>;
 }>;
 
